@@ -60,9 +60,9 @@ async function deleteUser(userKey) {
   return true;
 }
 
-async function updateUser(userKey) {
+async function updateUser(userKey, user) {
   try {
-    userCollection.remove({ _key: userKey })
+    userCollection.update(userKey, user)
   } catch (err) {
     console.error(err.message);
     return false;
