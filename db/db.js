@@ -1,6 +1,5 @@
 const { Database, aql } = require("arangojs");
 
-
 const db = new Database({
   url: "http://127.0.0.1:8529",
   databaseName: "main",
@@ -69,7 +68,36 @@ async function updateUser(userKey, user) {
   }
   return true;
 }
-
+/**
+* create edge btw nodes
+* from: _id of node
+* to: _id of node
+*/
+async function createEdge(from, to) {
+  try {
+    edgeCollection.save({ _from: from, _to: to })
+  } catch (err) {
+    console.error(err.message);
+    return false;
+  }
+  return true;
+}
+/**
+* delete edge btw nodes
+* from: _id of node
+* to: _id of node
+*/
+async function deleteEdge(from, to) {
+  try {
+    // TODO get _key
+    edgeCollection.remove({ _from: from, _to: to })
+  } catch (err) {
+    console.error(err.message);
+    return false;
+  }
+  return true;
+}
 module.exports = {
-  db, getAllUsers, createUser, deleteUser, updateUser
+  db, getAllUsers, createUser, deleteUser, updateUser,
+  createEdge, deleteEdge
 }

@@ -8,12 +8,6 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var user_api = require('./db/db');
-const x = async () => {
-  console.log(await user_api.getAllUsers())
-  user_api.updateUser("3553", { tags: ["#programming"] })
-}
-
-x().catch(console.error)
 
 var app = express();
 
