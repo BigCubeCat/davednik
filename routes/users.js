@@ -14,7 +14,7 @@ router.get('/', async function(req, res) {
   }
 });
 
-/* UPDATE user listing */
+/* PUT user listing */
 router.put('/:id', async function(req, res) {
   try {
     const user = await userAPI.getUser(req.params.id);
@@ -24,6 +24,40 @@ router.put('/:id', async function(req, res) {
     }
     const users = await userAPI.updateUser(user._key, req.body);
     res.json({ success: users });
+
+  } catch (err) {
+    console.log(err)
+    res.status(400)
+  }
+});
+
+/* DELETE user listing */
+router.delete('/:id', async function(req, res) {
+  try {
+    const user = await userAPI.getUser(req.params.id);
+    if (user === undefined) {
+      res.status(400);
+      return;
+    }
+    const users = await userAPI.deleteUser(user._key);
+    res.json({ success: users });
+
+  } catch (err) {
+    console.log(err)
+    res.status(400)
+  }
+});
+
+
+/* GET user listing */
+router.get('/:id', async function(req, res) {
+  try {
+    const user = await userAPI.getUser(req.params.id);
+    if (user === undefined) {
+      res.status(400);
+      return;
+    }
+    res.json({ user: user });
 
   } catch (err) {
     console.log(err)
