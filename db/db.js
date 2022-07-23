@@ -49,6 +49,25 @@ async function createUser(user) {
   return true;
 }
 
+async function getUser(id) {
+  let user;
+  try {
+    const userDocs = await db.query(aql`
+      FOR u IN ${userCollection}
+      FILTER u.id == ${id}
+      RETURN u
+    `);
+    for await (const u of userDocs) {
+      console.log('u = ', u)
+      user = u;
+    }
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+  return user;
+}
+
 async function deleteUser(userKey) {
   try {
     userCollection.remove({ _key: userKey })
@@ -99,5 +118,5 @@ async function deleteEdge(from, to) {
 }
 module.exports = {
   db, getAllUsers, createUser, deleteUser, updateUser,
-  createEdge, deleteEdge
+  createEdge, deleteEdge, getUser
 }
