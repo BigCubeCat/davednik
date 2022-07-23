@@ -65,5 +65,22 @@ router.get('/:id', async function(req, res) {
   }
 });
 
+/* POST user listing */
+router.post('/:id', async function(req, res) {
+  try {
+    const userData = req.body.user;
+    userData.id = req.params.id;
+    const user = await userAPI.createUser(userData);
+    if (user === undefined) {
+      res.status(400);
+      return;
+    }
+    res.json({ success: user });
+
+  } catch (err) {
+    console.log(err)
+    res.status(400)
+  }
+});
 
 module.exports = router;
