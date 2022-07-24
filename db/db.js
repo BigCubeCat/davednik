@@ -1,9 +1,9 @@
 const { Database, aql } = require("arangojs");
 
 const db = new Database({
-  url: "http://127.0.0.1:8529",
+  url: "http://davednik.ml:8529",
   databaseName: "main",
-  auth: { username: "user", password: "user" },
+  auth: { username: "user", password: "davednik2004" },
 });
 const userCollection = db.collection("users");
 const edgeCollection = db.collection("edge");
