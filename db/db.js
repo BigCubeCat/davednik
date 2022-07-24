@@ -87,6 +87,16 @@ async function updateUser(userKey, user) {
   }
   return true;
 }
+
+async function getUserById(userId) {
+  try {
+    return userCollection.document({ _id: userId });
+  } catch (err) {
+    console.error(err)
+  }
+  return {}
+}
+
 /**
 * create edge btw nodes
 * from: _id of node
@@ -138,7 +148,24 @@ async function getEdge(_from, _to) {
   }
 }
 
+async function getEdges(_from) {
+  let edgesDoc = [];
+  try {
+    const edges = await db.query(aql`
+      FOR e IN ${edgeCollection}
+      FILTER e._from == ${_from}
+      RETURN e
+    `);
+    for await (const e of edges) {
+      edgesDoc.push(e);
+    }
+    return edgesDoc;
+  } catch (err) {
+    console.error(err.message);
+    return
+  }
+}
 module.exports = {
-  db, getAllUsers, createUser, deleteUser, updateUser,
-  createEdge, deleteEdge, getUser
+  db, getAllUsers, createUser, deleteUser, updateUser, getUserById,
+  createEdge, deleteEdge, getEdge, getEdges, getUser
 }

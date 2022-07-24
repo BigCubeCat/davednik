@@ -17,7 +17,6 @@ router.post('/', async function(req, res) {
 
 /* DELETE edge listing. */
 router.delete('/', async function(req, res) {
-  console.log('here')
   try {
     const _from = req.body.from;
     const _to = req.body.to;
