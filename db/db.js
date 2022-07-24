@@ -59,7 +59,8 @@ async function searchUser() {
 }
 async function createUser(user) {
   try {
-    userCollection.save(user)
+    const userDoc = await userCollection.save(user);
+    return userDoc._id;
   } catch (err) {
     console.error(err.message);
     return false;
