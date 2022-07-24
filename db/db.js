@@ -8,6 +8,24 @@ const db = new Database({
 const userCollection = db.collection("users");
 const edgeCollection = db.collection("edge");
 
+
+async function searchByTag(tag) {
+  const users = [];
+  try {
+    const userDocs = await db.query(aql`
+      FOR u IN ${userCollection}
+      FILTER ${tag} IN u.tags
+      RETURN u
+    `);
+    for await (const u of userDocs) {
+      users.push(u);
+    }
+  } catch (err) {
+    console.error(err.message);
+  }
+  return users;
+}
+
 async function getAllUsers() {
   const users = [];
   try {
@@ -183,6 +201,6 @@ async function getAllEdges(_from) {
 }
 
 module.exports = {
-  db, getAllUsers, createUser, deleteUser, updateUser, getUserById,
+  db, getAllUsers, createUser, deleteUser, updateUser, getUserById, searchByTag,
   createEdge, deleteEdge, getEdge, getEdges, getUser, getAllEdges
 }
