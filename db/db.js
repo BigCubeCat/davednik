@@ -106,16 +106,38 @@ async function createEdge(from, to) {
 * from: _id of node
 * to: _id of node
 */
-async function deleteEdge(from, to) {
+async function deleteEdge(_from, _to) {
   try {
     // TODO get _key
-    edgeCollection.remove({ _from: from, _to: to })
+    const doc = await getEdge(_from, _to)
+    console.log("doc = ", doc)
+    edgeCollection.remove(doc);
   } catch (err) {
     console.error(err.message);
     return false;
   }
   return true;
 }
+
+async function getEdge(_from, _to) {
+  let edge;
+  try {
+    const edges = await db.query(aql`
+      FOR e IN ${edgeCollection}
+      FILTER e._from == ${_from} && e._to == ${_to}
+      RETURN e
+    `);
+    for await (const e of edges) {
+      edge = e;
+      break;
+    }
+    return edge;
+  } catch (err) {
+    console.error(err.message);
+    return
+  }
+}
+
 module.exports = {
   db, getAllUsers, createUser, deleteUser, updateUser,
   createEdge, deleteEdge, getUser

@@ -2,17 +2,33 @@ var express = require('express');
 var router = express.Router();
 var userAPI = require('../db/db');
 
-/* GET users listing. */
-router.get('/', async function(req, res) {
+/* POST edge listing. */
+router.post('/', async function(req, res) {
   try {
-    const users = await userAPI.getAllUsers();
-    res.json({ users: users });
-
+    const _from = req.body.from;
+    const _to = req.body.to;
+    const result = await userAPI.createEdge(_from, _to);
+    res.json({ "success": result })
   } catch (err) {
     console.log(err)
     res.status(400)
   }
 });
+
+/* DELETE edge listing. */
+router.delete('/', async function(req, res) {
+  console.log('here')
+  try {
+    const _from = req.body.from;
+    const _to = req.body.to;
+    const result = await userAPI.deleteEdge(_from, _to);
+    res.json({ "success": result })
+  } catch (err) {
+    console.log(err)
+    res.status(400)
+  }
+});
+
 
 
 module.exports = router;
