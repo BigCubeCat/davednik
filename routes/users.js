@@ -17,7 +17,7 @@ router.get('/', async function(req, res) {
 /* PUT user listing */
 router.put('/:id', async function(req, res) {
   try {
-    const user = await userAPI.getUser(req.params.id);
+    const user = await userAPI.getUserById(req.params.id);
     if (user === undefined) {
       res.status(400);
       return;
