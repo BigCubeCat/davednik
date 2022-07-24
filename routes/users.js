@@ -85,7 +85,6 @@ router.post('/:id', async function(req, res) {
 
 /* GET user neighbors listing */
 router.get('/neighbors/:id', async function(req, res) {
-  console.log("here")
   try {
     const user = await userAPI.getUser(req.params.id);
     if (user === undefined) {
@@ -93,7 +92,6 @@ router.get('/neighbors/:id', async function(req, res) {
       return;
     }
     const edges = await userAPI.getEdges(user._id);
-    console.log(edges)
     if (edges) {
       let users = [];
       for (const i in edges) {
