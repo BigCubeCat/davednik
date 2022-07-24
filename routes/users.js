@@ -69,6 +69,10 @@ router.get('/:id', async function(req, res) {
 router.post('/:id', async function(req, res) {
   try {
     const userData = req.body.user;
+    if (userData === undefined) {
+      res.status(400);
+      return;
+    }
     userData.id = req.params.id;
     const user = await userAPI.createUser(userData);
     if (user === undefined) {
