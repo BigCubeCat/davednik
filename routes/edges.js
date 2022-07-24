@@ -28,6 +28,15 @@ router.delete('/', async function(req, res) {
   }
 });
 
-
+/* GET all edge listing. */
+router.get('/', async function(req, res) {
+  try {
+    const result = await userAPI.getAllEdges();
+    res.json({ "edges": result })
+  } catch (err) {
+    console.log(err)
+    res.status(400)
+  }
+});
 
 module.exports = router;
