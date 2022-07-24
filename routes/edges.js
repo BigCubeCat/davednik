@@ -7,6 +7,10 @@ router.post('/', async function(req, res) {
   try {
     const _from = req.body.from;
     const _to = req.body.to;
+    if (!_from || !_to) {
+      res.status(400);
+      return;
+    }
     const result = await userAPI.createEdge(_from, _to);
     res.json({ "success": result })
   } catch (err) {
