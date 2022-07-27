@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
-var API = require('../db/db');
+var searchAPI = require('../db/searchAPI');
 
 
 /* GET search by tag listing. */
 router.get('/tag/:tag', async function(req, res) {
   try {
-    const users = await API.searchByTag("#" + req.params.tag);
+    const users = await searchAPI.searchByTag("#" + req.params.tag);
     res.json({ users: users });
   } catch (err) {
     console.log(err)
@@ -17,8 +17,7 @@ router.get('/tag/:tag', async function(req, res) {
 /* GET search by tag listing. */
 router.get('/name/:name', async function(req, res) {
   try {
-    console.log(req.params.name)
-    const users = await API.searchUsers(req.params.name);
+    const users = await searchAPI.searchUsers(req.params.name);
     res.json({ users: users });
   } catch (err) {
     console.log(err)

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var userAPI = require('../db/db');
+var edgeAPI = require('../db/edgeAPI');
 
 /* POST edge listing. */
 router.post('/', async function(req, res) {
@@ -11,7 +11,7 @@ router.post('/', async function(req, res) {
       res.status(400);
       return;
     }
-    const result = await userAPI.createEdge(_from, _to);
+    const result = await edgeAPI.createEdge(_from, _to);
     res.json({ "success": result })
   } catch (err) {
     console.log(err)
@@ -24,7 +24,7 @@ router.delete('/', async function(req, res) {
   try {
     const _from = req.body.from;
     const _to = req.body.to;
-    const result = await userAPI.deleteEdge(_from, _to);
+    const result = await edgeAPI.deleteEdge(_from, _to);
     res.json({ "success": result })
   } catch (err) {
     console.log(err)
@@ -35,7 +35,7 @@ router.delete('/', async function(req, res) {
 /* GET all edge listing. */
 router.get('/', async function(req, res) {
   try {
-    const result = await userAPI.getAllEdges();
+    const result = await edgeAPI.getAllEdges();
     res.json({ "edges": result })
   } catch (err) {
     console.log(err)
