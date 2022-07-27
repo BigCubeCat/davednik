@@ -14,7 +14,7 @@ async function searchByTag(tag) {
   try {
     const userDocs = await db.query(aql`
       FOR u IN ${userCollection}
-      FILTER ${tag} IN u.tags
+      FILTER u.tags =~ ${tag}
       RETURN u
     `);
     for await (const u of userDocs) {
@@ -41,13 +41,13 @@ async function getAllUsers() {
   }
   return users;
 }
-async function searchUser() {
-  // TODO
+async function searchUsers(name) {
   const users = [];
   try {
     const userDocs = await db.query(aql`
       FOR u IN ${userCollection}
-      RETURN u
+        FILTER u.name =~ ${name} 
+        RETURN u
     `);
     for await (const u of userDocs) {
       users.push(u);
@@ -203,5 +203,5 @@ async function getAllEdges(_from) {
 
 module.exports = {
   db, getAllUsers, createUser, deleteUser, updateUser, getUserById, searchByTag,
-  createEdge, deleteEdge, getEdge, getEdges, getUser, getAllEdges
+  createEdge, deleteEdge, getEdge, getEdges, getUser, getAllEdges, searchUsers
 }
