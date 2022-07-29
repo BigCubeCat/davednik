@@ -25,6 +25,18 @@ router.get('/name/:name', async function(req, res) {
   }
 });
 
+/* GET search by tag listing. */
+router.get('/handshake/:first/:second', async function(req, res) {
+  try {
+    const count = await searchAPI.searchUsers(req.params.name);
+    res.json({ count: count });
+  } catch (err) {
+    console.log(err)
+    res.status(400)
+  }
+});
+
+
 
 module.exports = router;
 

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var userAPI = require('../db/userAPI');
+var edgesAPI = require('../db/edgeAPI');
 
 /* GET users listing. */
 router.get('/', async function(req, res) {
@@ -92,7 +93,7 @@ router.get('/neighbors/:id', async function(req, res) {
       res.status(400);
       return;
     }
-    const edges = await userAPI.getEdges(user._id);
+    const edges = await edgesAPI.getEdges(user._id);
     if (edges) {
       let users = [];
       for (const i in edges) {
