@@ -36,6 +36,7 @@ async function getUser(id) {
       FILTER u.id == ${id}
       RETURN u
     `);
+    console.log(userDocs)
     for await (const u of userDocs) {
       console.log('u = ', u)
       user = u;

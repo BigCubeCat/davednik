@@ -53,10 +53,7 @@ router.delete('/:id', async function(req, res) {
 router.get('/:id', async function(req, res) {
   try {
     const user = await userAPI.getUser(req.params.id);
-    if (user === undefined) {
-      res.status(400);
-      return;
-    }
+    console.log("user = ", user)
     res.json({ user: user });
 
   } catch (err) {
