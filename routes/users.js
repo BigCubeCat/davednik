@@ -19,10 +19,6 @@ router.get('/', async function(req, res) {
 router.put('/:id', async function(req, res) {
   try {
     const user = await userAPI.getUser(req.params.id);
-    if (user === undefined) {
-      res.status(400);
-      return;
-    }
     const users = await userAPI.updateUser(user._key, req.body);
     res.json({ success: users });
 
@@ -36,10 +32,6 @@ router.put('/:id', async function(req, res) {
 router.delete('/:id', async function(req, res) {
   try {
     const user = await userAPI.getUser(req.params.id);
-    if (user === undefined) {
-      res.status(400);
-      return;
-    }
     const users = await userAPI.deleteUser(user._key);
     res.json({ success: users });
 
@@ -54,7 +46,6 @@ router.delete('/:id', async function(req, res) {
 router.get('/:id', async function(req, res) {
   try {
     const user = await userAPI.getUser(req.params.id);
-    console.log("user = ", user)
     res.json({ user: user });
 
   } catch (err) {
