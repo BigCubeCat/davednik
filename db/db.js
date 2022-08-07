@@ -8,7 +8,6 @@ const db = new Database({
 const userCollection = db.collection("users");
 const edgeCollection = db.collection("edge");
 
-
 module.exports = {
   db, userCollection, edgeCollection, aql
 }

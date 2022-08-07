@@ -1,5 +1,5 @@
-var { db, userCollection, aql } = require('./db');
-
+var { db, userCollection, aql, edgeCollection } = require('./db');
+var { getUserEdges, getEdges } = require('./edgeAPI')
 
 async function getAllUsers() {
   const users = [];
@@ -33,10 +33,11 @@ async function getUser(id) {
   try {
     const userDocs = await db.query(aql`
       FOR u IN ${userCollection}
-      FILTER u.id == ${id}
+      FILTER u._id == ${"users/" + id}
       RETURN u
     `);
     for await (const u of userDocs) {
+      console.log('u = ', u)
       user = u;
     }
   } catch (err) {
@@ -48,7 +49,20 @@ async function getUser(id) {
 
 async function deleteUser(userKey) {
   try {
-    userCollection.remove({ _key: userKey })
+    userCollection.remove({ _key: userKey });
+    let edgesToRemove = await getUserEdges("users/" + userKey);
+    edgeCollection.removeAll(edgesToRemove);
+  } catch (err) {
+    console.error(err.message);
+    return false;
+  }
+  return true;
+}
+
+async function deleteAllUsers() {
+  try {
+    userCollection.removeAll();
+    edgeCollection.removeAll();
   } catch (err) {
     console.error(err.message);
     return false;

@@ -50,6 +50,24 @@ async function getEdge(_from, _to) {
   }
 }
 
+async function getUserEdges(_user) {
+  let edgesDoc = [];
+  try {
+    const edges = await db.query(aql`
+      FOR e IN ${edgeCollection}
+      FILTER e._from == ${_user} OR e._to == ${_user}
+      RETURN e
+    `);
+    for await (const e of edges) {
+      edgesDoc.push(e);
+    }
+    return edgesDoc;
+  } catch (err) {
+    console.error(err.message);
+    return
+  }
+}
+
 async function getEdges(_from) {
   let edgesDoc = [];
   try {
@@ -85,5 +103,5 @@ async function getAllEdges(_from) {
 }
 
 module.exports = {
-  createEdge, deleteEdge, getEdge, getEdges, getAllEdges
+  createEdge, deleteEdge, getEdge, getEdges, getAllEdges, getUserEdges
 }
