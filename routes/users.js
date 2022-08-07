@@ -54,6 +54,18 @@ router.get('/:id', async function(req, res) {
   }
 });
 
+/* GET user listing */
+router.get('/tg/:id', async function(req, res) {
+  try {
+    const user = await userAPI.getUserByTgId(parseInt(req.params.id));
+    res.json({ user: user });
+
+  } catch (err) {
+    console.log(err)
+    res.status(400)
+  }
+});
+
 /* POST user listing */
 router.post('/:id', async function(req, res) {
   try {

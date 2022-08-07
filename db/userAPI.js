@@ -47,6 +47,27 @@ async function getUser(id) {
   return user;
 }
 
+async function getUserByTgId(tgId) {
+  let user;
+  console.log(`getting by tgid ${tgId}`)
+  try {
+    const userDocs = await db.query(aql`
+      FOR u IN ${userCollection}
+      FILTER u.tgId == ${tgId}
+      RETURN u
+    `);
+    for await (const u of userDocs) {
+      user = u;
+      console.log("u")
+      console.log(u);
+    }
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+  return user;
+}
+
 async function deleteUser(userKey) {
   try {
     userCollection.remove({ _key: userKey });
@@ -90,6 +111,6 @@ async function getUserById(userId) {
 }
 
 module.exports = {
-  getAllUsers, createUser, deleteUser, updateUser, getUserById, getUser
+  getAllUsers, createUser, deleteUser, updateUser, getUserById, getUser, getUserByTgId
 }
 
