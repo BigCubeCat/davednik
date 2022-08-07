@@ -82,8 +82,8 @@ async function deleteUser(userKey) {
 
 async function deleteAllUsers() {
   try {
-    userCollection.removeAll();
-    edgeCollection.removeAll();
+    userCollection.truncate();
+    edgeCollection.truncate();
   } catch (err) {
     console.error(err.message);
     return false;
@@ -111,6 +111,6 @@ async function getUserById(userId) {
 }
 
 module.exports = {
-  getAllUsers, createUser, deleteUser, updateUser, getUserById, getUser, getUserByTgId
+  getAllUsers, createUser, deleteUser, deleteAllUsers, updateUser, getUserById, getUser, getUserByTgId
 }
 

@@ -41,6 +41,17 @@ router.delete('/:id', async function(req, res) {
   }
 });
 
+/* DELETE all users */
+router.delete('/', async function(req, res) {
+  try {
+    const result = await userAPI.deleteAllUsers();
+    res.json({ success: result });
+
+  } catch (err) {
+    console.log(err)
+    res.status(400)
+  }
+});
 
 /* GET user listing */
 router.get('/:id', async function(req, res) {
