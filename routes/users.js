@@ -19,6 +19,7 @@ router.get('/', async function(req, res) {
 router.put('/:id', async function(req, res) {
   try {
     const user = await userAPI.getUser(req.params.id);
+    console.log("user = ", user)
     const users = await userAPI.updateUser(user._key, req.body);
     res.json({ success: users });
 

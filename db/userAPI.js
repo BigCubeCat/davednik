@@ -25,7 +25,6 @@ async function createUser(user) {
     console.error(err.message);
     return false;
   }
-  return true;
 }
 
 async function getUser(id) {
@@ -33,7 +32,7 @@ async function getUser(id) {
   try {
     const userDocs = await db.query(aql`
       FOR u IN ${userCollection}
-      FILTER u._id == ${"users/" + id}
+      FILTER u.id == ${id}
       RETURN u
     `);
     for await (const u of userDocs) {

@@ -6,7 +6,9 @@ var searchAPI = require('../db/searchAPI');
 /* GET search by tag listing. */
 router.get('/tag/:tag', async function(req, res) {
   try {
+    console.log(req.params.tag)
     const users = await searchAPI.searchByTag("#" + req.params.tag);
+    console.log('users = ', users)
     res.json({ users: users });
   } catch (err) {
     console.log(err)
