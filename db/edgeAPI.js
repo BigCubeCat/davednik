@@ -21,8 +21,10 @@ async function createEdge(from, to) {
 async function deleteEdge(_from, _to) {
   try {
     // TODO get _key
-    const doc = await getEdge(_from, _to)
-    edgeCollection.remove(doc);
+    const docs = await getEdge(_from, _to)
+    for (doc of docs) {
+      edgeCollection.remove(doc);
+    }
   } catch (err) {
     console.error(err.message);
     return false;
@@ -31,18 +33,17 @@ async function deleteEdge(_from, _to) {
 }
 
 async function getEdge(_from, _to) {
-  let edge;
+  let edges = [];
   try {
     const edges = await db.query(aql`
       FOR e IN ${edgeCollection}
-      FILTER e._from == ${_from} && e._to == ${_to}
+      FILTER e._from == ${_from} AND e._to == ${_to} OR e._to == ${_from} AND e._from == ${_to}
       RETURN e
     `);
     for await (const e of edges) {
-      edge = e;
-      break;
+      edges.push(e);
     }
-    return edge;
+    return edges;
   } catch (err) {
     console.error(err.message);
     return
