@@ -108,11 +108,14 @@ router.get('/neighbors/:id', async function(req, res) {
       res.status(400);
       return;
     }
-    const edges = await edgesAPI.getEdges(user._id);
+    const userDbId = user._id;
+    const edges = await edgesAPI.getUserEdges(userDbId);
+    console.log(edges)
     if (edges) {
       let users = [];
       for (const i in edges) {
-        const u = await userAPI.getUserById(edges[i]._to)
+        const dbId = (edges[i]._to === userDbId) ? edges[i]._from : edges[i]._to;
+        const u = await userAPI.getUserById(dbId);
         users.push(u);
       }
       res.json({ users: users });

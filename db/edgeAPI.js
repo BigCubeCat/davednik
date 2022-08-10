@@ -22,7 +22,6 @@ async function deleteEdge(_from, _to) {
   try {
     // TODO get _key
     const doc = await getEdge(_from, _to)
-    console.log("doc = ", doc)
     edgeCollection.remove(doc);
   } catch (err) {
     console.error(err.message);
@@ -73,7 +72,7 @@ async function getEdges(_from) {
   try {
     const edges = await db.query(aql`
       FOR e IN ${edgeCollection}
-      FILTER e._from == ${_from}
+      FILTER e._from == ${_from} || e._to == ${_from}
       RETURN e
     `);
     for await (const e of edges) {
