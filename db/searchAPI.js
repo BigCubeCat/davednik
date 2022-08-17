@@ -5,7 +5,7 @@ async function searchByTag(tag) {
   try {
     const userDocs = await db.query(aql`
       FOR u IN ${userCollection}
-      FILTER u.tags =~ ${tag}
+      FILTER LOWER(u.tags) =~ ${tag}
       RETURN u
     `);
     for await (const u of userDocs) {
@@ -22,7 +22,7 @@ async function searchUsers(name) {
   try {
     const userDocs = await db.query(aql`
       FOR u IN ${userCollection}
-        FILTER u.name =~ ${name} 
+        FILTER LOWER(u.name )=~ ${name} 
         RETURN u
     `);
     for await (const u of userDocs) {
