@@ -2,6 +2,12 @@
 
 ## Run:
 
+- Setup `.env`:
+```sh
+DB_URL=http://127.0.0.1:8529
+PASSWORD=user
+
+```
 - `npm i`
 - `npm start`
 
