@@ -1,9 +1,11 @@
 const { Database, aql } = require("arangojs");
+require('dotenv').config()
+
 
 const db = new Database({
-  url: "http://davednik.ml:8529",
+  url: process.env.DB_URL,
   databaseName: "main",
-  auth: { username: "user", password: "davednik2004" },
+  auth: { username: "user", password: process.env.PASSWORD },
 });
 const userCollection = db.collection("users");
 const edgeCollection = db.collection("edge");
