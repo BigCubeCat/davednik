@@ -19,10 +19,14 @@ async function getAllUsers() {
 
 async function createUser(user) {
   try {
+    console.log(userCollection)
     const userDoc = await userCollection.save(user);
     return userDoc._id;
   } catch (err) {
+    console.log('here')
+    console.error(err);
     console.error(err.message);
+    console.log('here')
     return false;
   }
 }

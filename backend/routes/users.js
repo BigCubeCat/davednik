@@ -8,7 +8,6 @@ router.get('/', async function(req, res) {
   try {
     const users = await userAPI.getAllUsers();
     res.json({ users: users });
-
   } catch (err) {
     console.log(err)
     res.status(400)
@@ -19,7 +18,6 @@ router.get('/', async function(req, res) {
 router.put('/:id', async function(req, res) {
   try {
     const user = await userAPI.getUser(req.params.id);
-    console.log("user = ", user)
     const users = await userAPI.updateUser(user._key, req.body);
     res.json({ success: users });
 
@@ -108,14 +106,11 @@ router.get('/neighbors/:id', async function(req, res) {
       res.status(400);
       return;
     }
-    const userDbId = user._id;
-    const edges = await edgesAPI.getUserEdges(userDbId);
-    console.log(edges)
+    const edges = await edgesAPI.getEdges(user._id);
     if (edges) {
       let users = [];
       for (const i in edges) {
-        const dbId = (edges[i]._to === userDbId) ? edges[i]._from : edges[i]._to;
-        const u = await userAPI.getUserById(dbId);
+        const u = await userAPI.getUserById(edges[i]._to)
         users.push(u);
       }
       res.json({ users: users });
