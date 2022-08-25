@@ -1,0 +1,25 @@
+services:
+  arangodb_db_container:
+    image: arangodb:latest
+    environment:
+      ARANGO_ROOT_PASSWORD: eqakMXZumC7E3i9Fxt41JWpgBvVfSmgs
+    ports:
+      - 8529:8529
+    volumes:
+      - arangodb_data_container:/var/lib/arangodb3
+      - arangodb_apps_data_container:/var/lib/arangodb3-apps
+  backend:
+    depends_on:
+      - arangodb_db_container
+    image: backend
+    restart: always
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile
+      target: base
+    ports:
+      - 5000:5000
+
+volumes:
+  arangodb_data_container:
+  arangodb_apps_data_container:
